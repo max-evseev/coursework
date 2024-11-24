@@ -96,7 +96,7 @@ app.use(express.urlencoded({ extended: true }));
             }
             else {
                 for (const entry of result) {
-                res.status(200).send('placeholder song page for song ' + entry.display_name);
+                res.status(200).sendFile(path.join(__dirname + '/music', entry.song_file_name + '.mp3'));
                 }
             }
         });
