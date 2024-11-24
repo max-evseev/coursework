@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>
+        <img src="logo.png" style="width:50px;height:50px;">
+        MUZOTRON
+        </h1>
+        <form method="post" action="/update_proceed" enctype="multipart/form-data">
+            <input type="hidden" id="cover_art_name_id" name="cover_art_name" value="">
+            <input type="hidden" id="song_file_name_id" name="song_file_name" value="">
+            <label for="song_file_upload">Upload song file:</label>
+            <input type="file" id="song_file_upload_id" name="song_file_upload" accept=".mp3" onchange="set_song_file_id()"><br>
+            <label for="song_cover_upload">Upload cover art:</label>
+            <input type="file" id="song_cover_upload_id" name="song_cover_upload" onchange="set_pic_id()" accept=".png"><br>
+            <label for="song_name_input">Song name:</label>
+            <input type="text" maxlength="50" id="song_name_input_id" name="song_name_input"><br>
+            <label for="desc_input">Song description:</label><br>
+            <textarea type="text" maxlength="1000" rows="20" cols="50" id="desc_input_id" name="desc_input"></textarea><br>
+            <button>Update song</button>
+        </form>
+        <form method="post" action="/song_delete" enctype="multipart/form-data">
+            <button>Delete song</button>
+        </form>
+        <script type="text/javascript">
+            function set_pic_id() {
+                if (document.getElementById("song_cover_upload_id").files.length === 0) {
+                document.getElementById("cover_art_name_id").value = "";
+                }
+                else {
+                const date = new Date();
+                const generated_id = encodeURI(window.btoa(date.getTime()));
+                document.getElementById("cover_art_name_id").value = generated_id;
+                }
+            }
+            function set_song_file_id() {
+            const date = new Date();
+            const generated_id = encodeURI(window.btoa(date.getTime()));
+            document.getElementById("song_file_name_id").value = generated_id;
+            }
+        </script>
+    </body>
+</html>
