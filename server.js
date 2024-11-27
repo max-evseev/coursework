@@ -13,6 +13,8 @@ program
 .option('-p, --password <db server password>')
 program.parse();
 const options = program.opts();
+app.use('/asset', express.static('assets'));
+app.use('/module', express.static('node_modules'));
 app.use(express.urlencoded({ extended: true }));
     const pool = mysql2.createPool({
     host: "localhost",
@@ -57,7 +59,7 @@ app.use(express.urlencoded({ extended: true }));
         }
     });
     app.post('/create_account', upload.single('pfp_upload'), (req, res) => {
-        console.log(req.file);
+    console.log(req.file);
     console.log(req.body);
         if (Object.keys(req.body).length === 0) {
         res.status(403).redirect('/');
@@ -68,7 +70,7 @@ app.use(express.urlencoded({ extended: true }));
                 req.body.pfp_file_name = 'null';
                 }
                 else {
-                fs.writeFileSync(path.join(__dirname + "/pfp", req.body.pfp_file_name + '.png'), req.file.buffer);
+                fs.writeFileSync(path.join(__dirname + "/assets/pfp", req.body.pfp_file_name + '.png'), req.file.buffer);
                 req.body.pfp_file_name = '"' + req.body.pfp_file_name + '"';
                 }
                 pool.query('insert into users (email, password, user_link_id, user_display_name, pfp_file_name, creation_date) values("' + req.body.email_input + '", "' + req.body.password_input + '", "' + req.body.user_link + '", "' + req.body.display_name_input + '", ' + req.body.pfp_file_name + ', current_date())', (err, result, fields) => {
@@ -96,7 +98,7 @@ app.use(express.urlencoded({ extended: true }));
             }
             else {
                 for (const entry of result) {
-                res.status(200).sendFile(path.join(__dirname + '/music', entry.song_file_name + '.mp3'));
+                res.status(200).sendFile(path.join(__dirname + '/assets/music', entry.song_file_name + '.mp3'));
                 }
             }
         });
@@ -131,7 +133,7 @@ app.use(express.urlencoded({ extended: true }));
         }
         else {
             for (const file of req.files.song_cover_upload) {
-            fs.writeFileSync(path.join(__dirname + "/cover", req.body.cover_art_name + '.png'), file.buffer);
+            fs.writeFileSync(path.join(__dirname + "/assets/cover", req.body.cover_art_name + '.png'), file.buffer);
             }
         req.body.cover_art_name = '"' + req.body.cover_art_name + '"';
         }
@@ -142,7 +144,7 @@ app.use(express.urlencoded({ extended: true }));
         req.body.desc_input = '"' + req.body.desc_input + '"';
         }
         for (const file of req.files.song_file_upload) {
-        fs.writeFileSync(path.join(__dirname + "/music", req.body.song_file_name + '.mp3'), file.buffer);
+        fs.writeFileSync(path.join(__dirname + "/assets/music", req.body.song_file_name + '.mp3'), file.buffer);
         }
         pool.query('insert into songs (song_link_id, author_link_id, display_name, upload_date, song_file_name, song_description, cover_art_file_name) values ("' + req.body.song_link + '", "' + "test" + '", "' + req.body.song_name_input + '", current_date(), "' + req.body.song_file_name + '", ' + req.body.desc_input + ', ' + req.body.cover_art_name + ')', (err, result, fields) => {
             if (err) {
@@ -151,7 +153,7 @@ app.use(express.urlencoded({ extended: true }));
         });
     res.status(201).redirect('/');
     });
-    app.get('/update_song/:song_id', (req, res) => {
+    /*app.get('/update_song/:song_id', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'update_song_page.html'));
     });
     app.post('/update_proceed/:song_id', upload.fields([{name: 'song_file_upload', maxCount: 1}, {name: 'song_cover_upload', maxCount: 1}]), (req, res) => {
@@ -225,7 +227,7 @@ app.use(express.urlencoded({ extended: true }));
             }
         res.status(200).redirect('/');
         });
-    });
+    });*/
     app.get('/songs', (req, res) => {
     res.status(200).send('placeholder page song search');
     });

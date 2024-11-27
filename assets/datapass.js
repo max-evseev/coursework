@@ -1,5 +1,6 @@
-import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
+import bcrypt from 'module/bcrypt/bcrypt.js';
+import nodemailer from '/modules/nodemailer';
+import { google } from '/modules/googleapis';
 const client_id = '932057013761-aeqsfk123mcubg2c0uqkbmf2erdenati.apps.googleusercontent.com';
 const client_secret = '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';
 const redirect_uri = 'https://developers.google.com/oauthplayground';

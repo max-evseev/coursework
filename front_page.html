@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <body>
+    <body onload="clear_data()">
         <h1>
-        <img src="./logo.png" style="width:50px;height:50px;">
+        <img src="/asset/logo.png" style="width:50px;height:50px;">
         MUZOTRON
         </h1>
         <form method="get" action="/songs" enctype="multipart/form-data">
@@ -14,5 +14,12 @@
         <form method="get" action="/login" enctype="multipart/form-data">
             <button>Login</button>
         </form>
+        <script type="text/javascript">
+            function clear_data() {
+            sessionStorage.clear("email");
+            sessionStorage.clear("password");
+            sessionStorage.clear("verification_code");
+            }
+        </script>
     </body>
 </html>
